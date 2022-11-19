@@ -1,0 +1,15 @@
+version: '3.0'
+
+services:
+  java-runtine:
+    image: meta.java
+    build:
+      context: .
+      dockerfile: ./java/Dockerfile
+    container_name: meta.java-service
+    ports:
+      - 5000:5000
+    working_dir: /var/www/html
+    command: tail -f /dev/null
+    volumes:
+      - ..:/var/www/html
