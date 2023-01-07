@@ -1,13 +1,8 @@
 FROM openjdk:17-oracle
 
-ENV MAVEN_HOME=/usr/share/maven
-ARG MAVEN_VERSION=3.6.3
-ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
+ENV FLYWAY_DOWNLOAD_URL=https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/9.8.1/flyway-commandline-9.8.1-linux-x64.tar.gz
 
-# download mvn cli
-RUN mkdir -p /var/download /usr/share/maven && \
-    curl -o /var/download/maven-release ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
-    tar -xzf /var/download/maven-release -C ${MAVEN_HOME} --strip-components=1
-
-# import mvn cli path to environment
-ENV PATH=$MAVEN_HOME/bin:$PATH
+# download 
+RUN curl ${FLYWAY_DOWNLOAD_URL} --output /var/download/flyway.tar.gz && \
+    tar xvz -f /var/download/flyway.tar.gz && \
+    ln -s `pwd`/flyway-9.8.1/flyway /usr/local/bin

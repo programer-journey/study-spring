@@ -13,3 +13,29 @@ services:
     command: tail -f /dev/null
     volumes:
       - ..:/var/www/html
+    networks:
+      - meta-vpc
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/meta-mars
+      - DB_USER=root
+      - DB_PASSWORD=123456
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0.21
+    container_name: meta.db-mysql
+    ports:
+      - 3376:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    networks:
+      - meta-vpc
+
+networks:
+  meta-vpc:
+    driver: bridge
+
+volumes:
+  mysql-data:
